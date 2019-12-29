@@ -1,8 +1,7 @@
 package com.example.a20191229_finaltest
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_lotto.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -10,6 +9,7 @@ import kotlin.collections.ArrayList
 class LottoActivity : BaseActivity() {
 
     val winLottoNumArr = ArrayList<Int>()
+    val winLottoNumTextViewList = ArrayList<TextView>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,13 +68,25 @@ class LottoActivity : BaseActivity() {
 //        Collections 클래스를 통해 sort하는 기능을 사용
         Collections.sort(winLottoNumArr)
 
-        for (num in winLottoNumArr){
-            Log.d("당첨번호",num.toString())
+        for (i in 0..5){
+            val tempTextView = winLottoNumTextViewList.get(i)
+            val winNum = winLottoNumArr.get(i)
+
+            tempTextView.text = winNum.toString()
+
+
         }
 
     }
 
     override fun setValues() {
+
+        winLottoNumTextViewList.add(lottoNumTxt01)
+        winLottoNumTextViewList.add(lottoNumTxt02)
+        winLottoNumTextViewList.add(lottoNumTxt03)
+        winLottoNumTextViewList.add(lottoNumTxt04)
+        winLottoNumTextViewList.add(lottoNumTxt05)
+        winLottoNumTextViewList.add(lottoNumTxt06)
 
     }
 }
