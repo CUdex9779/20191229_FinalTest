@@ -1,8 +1,10 @@
 package com.example.a20191229_finaltest
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_lotto.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -16,6 +18,9 @@ class LottoActivity : BaseActivity() {
     var bonusNumber = 0
     val winLottoNumTextViewList = ArrayList<TextView>()
     val myLottoNumTextViewList = ArrayList<TextView>()
+
+
+    val mHandler = Handler()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +39,34 @@ class LottoActivity : BaseActivity() {
 
 //            몇등인지 판단하기
             checkLottoRank()
+
+        }
+
+        buyAutoLottoBtn.setOnClickListener {
+
+            buyLottoLoop()
+        }
+
+    }
+
+    fun buyLottoLoop(){
+        mHandler.post(buyingLottoRunnable)
+    }
+
+    val buyingLottoRunnable = object : Runnable{
+        override fun run() {
+
+            if (usedMoney < 10000000){
+                makeWinLottoNum()
+                checkLottoRank()
+                buyLottoLoop()
+            }
+            else{
+                runOnUiThread {
+                    Toast.makeText(mContext,"로또구매를 종료합니다.",Toast.LENGTH_SHORT).show()
+                }
+            }
+
         }
 
     }
@@ -190,6 +223,10 @@ class LottoActivity : BaseActivity() {
 
         }
 
+        val bonusTempNum = winLottoNumTextViewList.get(6)
+
+        bonusTempNum.text = bonusNumber.toString()
+
     }
 
     override fun setValues() {
@@ -201,6 +238,7 @@ class LottoActivity : BaseActivity() {
         winLottoNumTextViewList.add(lottoNumTxt04)
         winLottoNumTextViewList.add(lottoNumTxt05)
         winLottoNumTextViewList.add(lottoNumTxt06)
+        winLottoNumTextViewList.add(bonusNumTxt)
 
 //        내가 뽑은 번호 텍스트뷰를 배열로 담아둠
         myLottoNumTextViewList.add(myNumTxt01)
