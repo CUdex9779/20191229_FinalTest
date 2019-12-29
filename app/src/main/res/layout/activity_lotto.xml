@@ -167,6 +167,14 @@
         android:layout_marginTop="5dp"
         android:text="로또 구매 자동반복"/>
 
+    <Button
+        android:id="@+id/resetLottoBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="초기화"/>
+
+
 
 
 

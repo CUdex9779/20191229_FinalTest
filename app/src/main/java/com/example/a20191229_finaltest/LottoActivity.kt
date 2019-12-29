@@ -22,6 +22,7 @@ class LottoActivity : BaseActivity() {
 
     val mHandler = Handler()
     var isNowBuyingLotto = false
+    var isReturnOk = true
 
     var firstRankCount = 0
     var seconedRankCount = 0
@@ -52,17 +53,37 @@ class LottoActivity : BaseActivity() {
 
         buyAutoLottoBtn.setOnClickListener {
 
-            if (!isNowBuyingLotto){
-            buyLottoLoop()
-                isNowBuyingLotto=true
-                buyAutoLottoBtn.text = "자동 구매 일시 정지"
+
+            if (!isReturnOk){
+
+                Toast.makeText(mContext,"초기화 버튼을 눌러주세요",Toast.LENGTH_SHORT).show()
+
             }
+
             else{
+
+
+                if (!isNowBuyingLotto){
+                    buyLottoLoop()
+                    isNowBuyingLotto=true
+                    buyAutoLottoBtn.text = "자동 구매 일시 정지"
+                }
+                else{
 //                구매 중단
-                mHandler.removeCallbacks(buyingLottoRunnable)
-                isNowBuyingLotto = false
-                buyAutoLottoBtn.text = "자동 구매 재개"
+                    mHandler.removeCallbacks(buyingLottoRunnable)
+                    isNowBuyingLotto = false
+                    buyAutoLottoBtn.text = "자동 구매 재개"
+                }
             }
+
+
+
+        }
+
+        resetLottoBtn.setOnClickListener {
+
+            resetCount()
+
         }
 
     }
@@ -74,7 +95,7 @@ class LottoActivity : BaseActivity() {
     val buyingLottoRunnable = object : Runnable{
         override fun run() {
 
-            if (usedMoney < 10000000){
+            if (usedMoney < 100000000){
                 makeWinLottoNum()
                 checkLottoRank()
                 buyLottoLoop()
@@ -82,7 +103,12 @@ class LottoActivity : BaseActivity() {
             else{
                 runOnUiThread {
                     Toast.makeText(mContext,"로또구매를 종료합니다.",Toast.LENGTH_SHORT).show()
+
                 }
+
+                isReturnOk = false
+                isNowBuyingLotto = false
+                buyAutoLottoBtn.text = "자동 구매 재개"
             }
 
         }
@@ -258,6 +284,32 @@ class LottoActivity : BaseActivity() {
         val bonusTempNum = winLottoNumTextViewList.get(6)
 
         bonusTempNum.text = bonusNumber.toString()
+
+    }
+
+    fun resetCount(){
+
+        usedMoney = 0
+        totalWinMoney = 0
+        firstRankCount = 0
+        seconedRankCount = 0
+        thirdRankCount = 0
+        fourthRankCount = 0
+        fifthRankCount = 0
+        noRankCount = 0
+
+        totalWinMoneyTxt.text = String.format("%,d 원",totalWinMoney)
+
+        totalUseMoneyTxt.text = String.format("%,d 원",usedMoney)
+
+        firstRankCountTxt.text = "${firstRankCount}"
+        secondRankCountTxt.text = "${seconedRankCount}"
+        thirdRankCountTxt.text = "${thirdRankCount}"
+        fourthRankCountTxt.text = "${fourthRankCount}"
+        fifthRankCountTxt.text = "${fifthRankCount}"
+        noRankCountTxt.text = "${noRankCount}"
+
+        isReturnOk = true
 
     }
 
