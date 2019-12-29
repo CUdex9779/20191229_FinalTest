@@ -1,7 +1,9 @@
 package com.example.a20191229_finaltest
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 
@@ -11,6 +13,11 @@ class MainActivity : BaseActivity() {
     }
 
     override fun setEvents() {
+
+        lottoBtn.setOnClickListener {
+            val intent = Intent(mContext,LottoActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 
