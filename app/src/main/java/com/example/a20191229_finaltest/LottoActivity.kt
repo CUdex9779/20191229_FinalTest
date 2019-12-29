@@ -13,6 +13,7 @@ class LottoActivity : BaseActivity() {
     var usedMoney = 0L
 
     val winLottoNumArr = ArrayList<Int>()
+    var bonusNumber = 0
     val winLottoNumTextViewList = ArrayList<TextView>()
     val myLottoNumTextViewList = ArrayList<TextView>()
 
@@ -86,10 +87,10 @@ class LottoActivity : BaseActivity() {
 
         }
 
-        totalWinMoneyTxt.text = totalWinMoney.toString()
+        totalWinMoneyTxt.text = String.format("%,d 원",totalWinMoney)
 
         usedMoney += 1000
-        totalUseMoneyTxt.text = usedMoney.toString()
+        totalUseMoneyTxt.text = String.format("%,d 원",usedMoney)
     }
 
     fun makeWinLottoNum(){
@@ -101,9 +102,13 @@ class LottoActivity : BaseActivity() {
 //        여기까지 완료되면 6개의 텍스트뷰에 반영
 
         winLottoNumArr.clear()
+//        기존의 보너스 넘버 초기화
+        bonusNumber = 0
 
+//        당첨번호 "6개"를 만들기 위한 for문
         for (i in 0..5){
 
+//            제약 조건을 만족할때까지 무한반복 시키기 위한 while문
             while (true){
                 val randomInt = Random().nextInt(45)+1 //0~44의 랜덤값 +1 => 1~45의 랜덤
 
@@ -130,6 +135,30 @@ class LottoActivity : BaseActivity() {
 
 //        Collections 클래스를 통해 sort하는 기능을 사용
         Collections.sort(winLottoNumArr)
+
+//        보너스 번호도 생성
+//        1~45값 / 기존의 당첨번호 6개와 중복 X => 1개만
+
+//        보너스 번호가 괜찮을 때까지 무한반복
+        while (true){
+
+            val tempNum = Random().nextInt(45)+1
+
+            var isDupOk = true
+            for (winNum in winLottoNumArr){
+                if (tempNum == winNum){
+//                    중복이라 사용안됨을 표시
+                    isDupOk = false
+                }
+            }
+
+            if (isDupOk){
+                bonusNumber = tempNum
+//                제약조건에 맞는 숫자를 찾았으니 무한반복 정리
+                break
+            }
+
+        }
 
         for (i in 0..5){
             val tempTextView = winLottoNumTextViewList.get(i)
