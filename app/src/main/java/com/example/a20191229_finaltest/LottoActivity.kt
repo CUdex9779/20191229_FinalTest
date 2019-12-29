@@ -23,6 +23,13 @@ class LottoActivity : BaseActivity() {
     val mHandler = Handler()
     var isNowBuyingLotto = false
 
+    var firstRankCount = 0
+    var seconedRankCount = 0
+    var thirdRankCount = 0
+    var fourthRankCount = 0
+    var fifthRankCount = 0
+    var noRankCount = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,6 +121,7 @@ class LottoActivity : BaseActivity() {
         if (correctCount == 6){
 //            1등 당첨 => 당첨금액 += 50억
             totalWinMoney += 5000000000
+            firstRankCount++
         }
         else if(correctCount ==5){
 
@@ -132,30 +140,43 @@ class LottoActivity : BaseActivity() {
             if (isSecondRank){
 //                2등 += 5천만원
                 totalWinMoney += 50000000
+                seconedRankCount++
             }
             else{
                 //            당첨금액 += 150만원
 
                 totalWinMoney += 1500000
+                thirdRankCount++
             }
 
         }
         else if (correctCount ==4){
 //            당첨금액 += 5만원
             totalWinMoney += 50000
+            fourthRankCount++
         }
         else if (correctCount == 3){
 //            5천원
-            totalWinMoney += 5000
+            usedMoney -= 5000
+            fifthRankCount++
         }
         else{
 
+
+            noRankCount++
         }
 
         totalWinMoneyTxt.text = String.format("%,d 원",totalWinMoney)
 
         usedMoney += 1000
         totalUseMoneyTxt.text = String.format("%,d 원",usedMoney)
+
+        firstRankCountTxt.text = "${firstRankCount}"
+        secondRankCountTxt.text = "${seconedRankCount}"
+        thirdRankCountTxt.text = "${thirdRankCount}"
+        fourthRankCountTxt.text = "${fourthRankCount}"
+        fifthRankCountTxt.text = "${fifthRankCount}"
+        noRankCountTxt.text = "${noRankCount}"
     }
 
     fun makeWinLottoNum(){
